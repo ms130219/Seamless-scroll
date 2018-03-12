@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无缝滚动test</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        img{
+            width: 200px;
+            height: 100px;
+        }
+        .box{
+            overflow: hidden;
+            margin: 100px auto;
+            width: 800px;
+            height: 100px;
+            background-color: red;
+            position: relative;
+        }
+        ul{
+            position: absolute;
+        }
+        ul li{
+            float: left;
+        }
+        .btn{
+            margin: 0 auto;
+            width: 400px;
+            display: flex;
+        }
+        button{
+            width: 100px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="box">
+    <ul id="ul">
+        <li><img src="img/image1.jpg"></li>
+        <li><img src="img/image2.jpg"></li>
+        <li><img src="img/image3.jpg"></li>
+        <li><img src="img/image4.jpg"></li>
+    </ul>
+</div>
+<div class="btn" id="btn">
+    <button>向左加速</button>
+    <button>向左滚动</button>
+    <button>向右滚动</button>
+    <button>向右加速</button>
+</div>
+
+<script>
+    window.onload=function () {
+        var ul=$('ul');
+        var li=$('ul').children;
+        var btns=$('btn').children;
+        var speed=5,move;
+        ul.innerHTML=ul.innerHTML+ul.innerHTML;
+        ul.style.width=li[0].offsetWidth*li.length+'px';
+        function roll() {
+             if(ul.offsetLeft<-ul.offsetWidth/2){
+                 ul.style.left=0;
+             }
+             if(ul.offsetLeft>0){
+                 ul.style.left=-ul.offsetWidth/2+'px';
+             }
+             ul.style.left=ul.offsetLeft+speed+'px';
+         }
+        move=setInterval(roll,30);
+        for(var i=0;i<li.length;i++){
+            var oli=li[i];
+            oli.onmouseover=function () {
+                clearInterval(move);
+            };
+            oli.onmouseout=function () {
+                move=setInterval(roll,30)
+            }
+        }
+        btns[0].onclick=function () {
+            speed--
+        };
+        btns[1].onclick=function () {
+            speed=-5;
+        };
+        btns[2].onclick=function () {
+            speed=5;
+        };
+        btns[3].onclick=function () {
+            speed++
+        };
+
+    };
+
+    function $(id) {
+        return typeof id==='string'?document.getElementById(id):null;
+    }
+</script>
+</body>
+</html>
